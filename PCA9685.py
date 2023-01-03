@@ -66,7 +66,7 @@ class PCA9685(object):
             self.address, bytearray([MODE1])
         )  # write register we want to read from first
         mode1 = i2c.read(self.address, 1)
-        mode1 = ustruct.unpack("<H", mode1)[0]
+        mode1 = ustruct.unpack("<B", mode1)[0]
         mode1 = mode1 & ~SLEEP  # wake up (reset sleep)
         i2c.write(self.address, bytearray([MODE1, mode1]))
         sleep(5)  # wait for oscillator
@@ -85,7 +85,7 @@ class PCA9685(object):
             self.address, bytearray([MODE1])
         )  # write register we want to read from first
         oldmode = i2c.read(self.address, 1)
-        oldmode = ustruct.unpack("<H", oldmode)[0]
+        oldmode = ustruct.unpack("<B", oldmode)[0]
         newmode = (oldmode & 0x7F) | 0x10  # sleep
         i2c.write(self.address, bytearray([MODE1, newmode]))  # go to sleep
         i2c.write(self.address, bytearray([PRESCALE, prescale]))
